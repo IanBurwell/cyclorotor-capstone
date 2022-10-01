@@ -1,7 +1,6 @@
 #include <Servo.h>
 
-#define MOTOR1 C06
-
+#define MOTOR1 9
 
 #define SERIAL_TX2 A02
 #define SERIAL_RX2 A03
@@ -25,6 +24,7 @@ void loop(){
       servo2.writeMicroseconds(1500);
     }
 
-    serial.println("The input was " + c + ".")
+    Serial.println("The input was " + c);
+    Serial.println(c);
   }
 }
