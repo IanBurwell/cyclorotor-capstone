@@ -1,18 +1,22 @@
 #include <servo.h>
 
-#define MOTOR1 C06
-#define MOTOR2 C07
-#define MOTOR3 B00
-#define MOTOR4 B01
+#define MOTOR1 B00
+#define MOTOR2 B01
+#define MOTOR3 A00
+#define MOTOR4 A01
 
-#define SERIAL_TX2 A02
-#define SERIAL_RX2 A03
-#define SERIAL_TX3 C10
-#define SERIAL_RX3 C11
-#define SERIAL_TX4 A00
-#define SERIAL_RX4 A01
+#define SERIAL_TX2 D05
+#define SERIAL_RX2 D06
+#define SERIAL_TX3 D08
+#define SERIAL_RX3 D09
+#define SERIAL_TX4 B09
+#define SERIAL_RX4 B08
+
+#define LED1 E03
+#define LED2 E04
 
 Servo esc, servo1, servo2;
+unsigned long last_flash = 0;
 
 void setup(){
   Serial.begin(9600);
@@ -21,10 +25,14 @@ void setup(){
   servo1.attach(MOTOR2);
   servo2.attach(MOTOR3);
 
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  digitalWrite(LED2, HIGH);
+
 }
 
 void loop(){
-
+  // Handle serial input
   if(Serial.available()){
     char c = Serial.read();    
     if(c == '1'){
@@ -43,4 +51,12 @@ void loop(){
       servo2.writeMicroseconds(2000);
     }
   }
+
+  // Flash LEDs
+  if(millis() - last_flash > 500){
+    last_flash = millis();
+    digitalWrite(LED1, !digitalRead(LED1));
+    digitalWrite(LED2, !digitalRead(LED2));
+  }
+
 }
