@@ -29,6 +29,11 @@ void setup(){
   pinMode(LED2, OUTPUT);
   digitalWrite(LED2, HIGH);
 
+  // Wait for serial port to connect
+  while(!Serial);
+  Serial.println("Ready");
+
+
 }
 
 void loop(){
